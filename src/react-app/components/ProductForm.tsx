@@ -84,7 +84,7 @@ export default function ProductForm({ product, onSave, onCancel }: ProductFormPr
 
             <div>
               <label className="block text-sm font-semibold text-gray-900 mb-2">
-                Price ($)
+                Price (KES)
               </label>
               <input
                 type="number"

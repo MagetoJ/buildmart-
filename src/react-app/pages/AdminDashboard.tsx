@@ -242,7 +242,7 @@ export default function AdminDashboard() {
                 <TrendingUp className="w-6 h-6" />
               </div>
             </div>
-            <div className="text-3xl font-bold mb-1">${stats.totalRevenue.toFixed(2)}</div>
+            <div className="text-3xl font-bold mb-1">KES {stats.totalRevenue.toFixed(2)}</div>
             <div className="text-orange-100 font-medium">Total Revenue</div>
           </div>
 
@@ -397,7 +397,7 @@ export default function AdminDashboard() {
                       <div className="text-gray-900 font-medium">{order.customerName}</div>
                       <div className="text-sm text-gray-500">{order.customerEmail}</div>
                     </td>
-                    <td className="px-6 py-4 font-bold text-gray-900">${order.total.toFixed(2)}</td>
+                    <td className="px-6 py-4 font-bold text-gray-900">KES {order.total.toFixed(2)}</td>
                     <td className="px-6 py-4">
                       <span className={`px-3 py-1 rounded-full text-xs font-semibold ${statusColors[order.status]}`}>
                         {order.status.charAt(0).toUpperCase() + order.status.slice(1)}

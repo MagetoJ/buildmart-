@@ -353,7 +353,7 @@ initDb().then((db) => {
                 `🚀 *New frah spaces Order!* \n\n` +
                 `*Order ID:* ${orderId}\n` +
                 `*Customer:* ${customerName}\n` +
-                `*Total:* $${total}\n` +
+                `*Total:* KES ${total}\n` +
                 `*Address:* ${deliveryAddress}\n\n` +
                 `Please login to the dashboard to assign staff.`
             );
@@ -645,7 +645,7 @@ initDb().then((db) => {
     const frontendBuildPath = path.resolve(process.cwd(), '../dist');
     if (fs.existsSync(frontendBuildPath)) {
         app.use(express.static(frontendBuildPath));
-        app.get('/:any*', (req, res) => {
+        app.get('*', (req, res) => {
             if (!req.path.startsWith('/api')) {
                 res.sendFile(path.join(frontendBuildPath, 'index.html'));
             }

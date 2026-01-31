@@ -103,7 +103,7 @@ export default function Cart() {
                       </div>
 
                       <div className="text-2xl font-black text-gray-900">
-                        ${(item.price * item.quantity).toFixed(2)}
+                        KES {(item.price * item.quantity).toFixed(2)}
                       </div>
                     </div>
                   </div>
@@ -119,7 +119,7 @@ export default function Cart() {
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-gray-600">
                   <span>Subtotal ({totalItems} items)</span>
-                  <span className="font-semibold">${totalPrice.toFixed(2)}</span>
+                  <span className="font-semibold">KES {totalPrice.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Shipping</span>
@@ -134,7 +134,7 @@ export default function Cart() {
               <div className="border-t border-gray-200 pt-4 mb-6">
                 <div className="flex justify-between text-xl font-bold text-gray-900">
                   <span>Total</span>
-                  <span>${totalPrice.toFixed(2)}</span>
+                  <span>KES {totalPrice.toFixed(2)}</span>
                 </div>
               </div>
 

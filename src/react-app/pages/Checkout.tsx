@@ -214,7 +214,7 @@ export default function CheckoutPage() {
                   ) : (
                     <>
                       <ShieldCheck className="w-6 h-6" />
-                      Place Order (${totalPrice.toFixed(2)})
+                      Place Order (KES {totalPrice.toFixed(2)})
                     </>
                   )}
                 </button>
@@ -232,14 +232,14 @@ export default function CheckoutPage() {
                     <div className="text-gray-600">
                       <span className="font-bold text-gray-900">{item.quantity}x</span> {item.name}
                     </div>
-                    <div className="font-semibold text-gray-900">${(item.price * item.quantity).toFixed(2)}</div>
+                    <div className="font-semibold text-gray-900">KES {(item.price * item.quantity).toFixed(2)}</div>
                   </div>
                 ))}
               </div>
               <div className="border-t border-gray-100 pt-4 space-y-2">
                 <div className="flex justify-between text-gray-600">
                   <span>Subtotal</span>
-                  <span>${totalPrice.toFixed(2)}</span>
+                  <span>KES {totalPrice.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
                   <span>Shipping</span>
@@ -247,7 +247,7 @@ export default function CheckoutPage() {
                 </div>
                 <div className="flex justify-between text-xl font-bold text-gray-900 pt-2">
                   <span>Total</span>
-                  <span>${totalPrice.toFixed(2)}</span>
+                  <span>KES {totalPrice.toFixed(2)}</span>
                 </div>
               </div>
             </div>

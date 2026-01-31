@@ -1,6 +1,6 @@
 import { useParams, useNavigate, Link } from "react-router";
 import { useState, useEffect } from "react";
-import { ShoppingCart, Heart, ArrowLeft, Minus, Plus, Package, Truck, Shield, Star, MessageSquare, Scale, Calculator, ChevronRight, Info } from "lucide-react";
+import { ShoppingCart, Heart, Minus, Plus, Package, Truck, Shield, Star, MessageSquare, Scale, Calculator, ChevronRight, Info } from "lucide-react";
 import Header from "@/react-app/components/Header";
 import Footer from "@/react-app/components/Footer";
 import ProductCard from "@/react-app/components/ProductCard";
@@ -232,7 +232,7 @@ export default function ProductDetail() {
             <div className="text-sm text-orange-600 font-semibold mb-2">{product.category_name}</div>
             <h1 className="text-4xl font-bold text-gray-900 mb-4">{product.name}</h1>
             <div className="flex items-baseline gap-3 mb-6">
-              <div className="text-5xl font-bold text-gray-900">${product.price}</div>
+              <div className="text-5xl font-bold text-gray-900">KES {product.price}</div>
               <div className="text-xl text-gray-500">{product.unit}</div>
             </div>
 
@@ -283,7 +283,7 @@ export default function ProductDetail() {
                   </button>
                 </div>
                 <div className="text-3xl font-black text-gray-900">
-                  ${(product.price * quantity).toFixed(2)}
+                  KES {(product.price * quantity).toLocaleString()}
                 </div>
               </div>
             </div>

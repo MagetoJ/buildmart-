@@ -231,7 +231,7 @@ export default function AdminOrders() {
                 </div>
 
                 <div className="text-right">
-                  <div className="text-xl font-bold text-gray-900">${order.total.toFixed(2)}</div>
+                  <div className="text-xl font-bold text-gray-900">KES {order.total.toFixed(2)}</div>
                   <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold mt-1 ${statusColors[order.status]}`}>
                     {statusIcons[order.status]}
                     {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
@@ -329,16 +329,16 @@ export default function AdminOrders() {
                             {orderItems[order.id]?.map(item => (
                               <tr key={item.id}>
                                 <td className="px-4 py-3 font-medium text-gray-900">{item.productName}</td>
-                                <td className="px-4 py-3 text-gray-600">${item.price.toFixed(2)}</td>
+                                <td className="px-4 py-3 text-gray-600">KES {item.price.toFixed(2)}</td>
                                 <td className="px-4 py-3 text-gray-600">x{item.quantity}</td>
-                                <td className="px-4 py-3 text-gray-900 font-bold text-right">${(item.price * item.quantity).toFixed(2)}</td>
+                                <td className="px-4 py-3 text-gray-900 font-bold text-right">KES {(item.price * item.quantity).toFixed(2)}</td>
                               </tr>
                             ))}
                           </tbody>
                           <tfoot className="bg-gray-100">
                             <tr>
                               <td colSpan={3} className="px-4 py-3 text-sm font-bold text-gray-900">Total Amount</td>
-                              <td className="px-4 py-3 text-lg font-bold text-orange-600 text-right">${order.total.toFixed(2)}</td>
+                              <td className="px-4 py-3 text-lg font-bold text-orange-600 text-right">KES {order.total.toFixed(2)}</td>
                             </tr>
                           </tfoot>
                         </table>

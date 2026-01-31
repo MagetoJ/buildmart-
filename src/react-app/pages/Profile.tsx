@@ -337,7 +337,7 @@ export default function ProfilePage() {
                               <td className="px-6 py-4 text-gray-600">
                                 {new Date(order.createdAt).toLocaleDateString()}
                               </td>
-                              <td className="px-6 py-4 text-gray-900 font-semibold">${order.total.toFixed(2)}</td>
+                              <td className="px-6 py-4 text-gray-900 font-semibold">KES {order.total.toFixed(2)}</td>
                               <td className="px-6 py-4">
                                 <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border-2 shadow-sm ${
                                   order.status === "delivered" 
@@ -372,7 +372,7 @@ export default function ProfilePage() {
                                               <span className="font-semibold text-gray-900">{item.productName}</span>
                                               <span className="text-gray-400">x{item.quantity}</span>
                                             </div>
-                                            <span className="font-bold text-gray-900">${(item.price * item.quantity).toFixed(2)}</span>
+                                            <span className="font-bold text-gray-900">KES {(item.price * item.quantity).toFixed(2)}</span>
                                           </div>
                                         ))
                                       ) : (
@@ -382,7 +382,7 @@ export default function ProfilePage() {
                                       )}
                                       <div className="pt-3 border-t border-gray-200 flex justify-between items-center">
                                         <span className="font-bold text-gray-900">Total Amount</span>
-                                        <span className="text-lg font-bold text-orange-600">${order.total.toFixed(2)}</span>
+                                        <span className="text-lg font-bold text-orange-600">KES {order.total.toFixed(2)}</span>
                                       </div>
                                     </div>
                                   </div>

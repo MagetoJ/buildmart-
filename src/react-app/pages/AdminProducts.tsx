@@ -252,7 +252,7 @@ export default function AdminProducts() {
                       </span>
                     </td>
                     <td className="px-6 py-4 font-bold text-gray-900">
-                      ${product.price.toFixed(2)}
+                      KES {product.price.toFixed(2)}
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex flex-col gap-2">

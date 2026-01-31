@@ -67,7 +67,7 @@ export default function ComparePage() {
                             className="w-32 h-32 object-cover rounded-2xl mb-4 shadow-sm"
                           />
                           <h3 className="font-bold text-gray-900 line-clamp-2 mb-2">{product.name}</h3>
-                          <div className="text-2xl font-bold text-orange-600">${product.price.toFixed(2)}</div>
+                          <div className="text-2xl font-bold text-orange-600">KES {product.price.toFixed(2)}</div>
                           <div className="text-sm text-gray-500 mb-6">{product.unit}</div>
                           <button 
                             onClick={() => addToCart(product, 1)}

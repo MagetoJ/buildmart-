@@ -273,7 +273,7 @@ export default function Header() {
                           {product.name}
                         </h4>
                         <p className="text-gray-500 line-clamp-1">{product.description}</p>
-                        <div className="mt-1 font-bold text-orange-600">${product.price.toFixed(2)}</div>
+                        <div className="mt-1 font-bold text-orange-600">KES {product.price.toFixed(2)}</div>
                       </div>
                     </Link>
                   ))}

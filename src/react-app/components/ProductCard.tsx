@@ -97,7 +97,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         <div className="flex items-end justify-between mb-4">
           <div>
             <div className="text-3xl font-bold text-gray-900">
-              ${product.price}
+              KES {product.price}
             </div>
             <div className="text-sm text-gray-500">{product.unit}</div>
           </div>
