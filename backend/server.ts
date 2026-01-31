@@ -76,6 +76,16 @@ async function initDb() {
 
 // API Routes
 initDb().then((db) => {
+    // Health check endpoint
+    app.get('/api/health', async (req, res) => {
+        try {
+            await db.get('SELECT 1');
+            res.json({ status: 'ok', db: 'sqlite' });
+        } catch (error) {
+            res.status(500).json({ status: 'error', db: 'disconnected' });
+        }
+    });
+
     // Visitor Tracking Middleware
     app.use(async (req, res, next) => {
         const visitorId = (req.headers['x-visitor-id'] as string) || 'guest';
