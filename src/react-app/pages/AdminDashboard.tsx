@@ -33,6 +33,15 @@ interface Staff {
   role: string;
 }
 
+interface Analytics {
+  finance: {
+    revenue: number;
+    orders: number;
+  };
+  visitors: number;
+  categorySales: { name: string; value: number }[];
+}
+
 const AssignStaffModal = ({ order, staffMembers, onAssign }: { order: Order, staffMembers: Staff[], onAssign: (orderId: string, staffId: string) => void }) => {
   return (
     <div className="p-4 bg-gray-50 rounded-xl border border-gray-200 mt-2">
@@ -347,7 +356,7 @@ export default function AdminDashboard() {
                   paddingAngle={5}
                   dataKey="value"
                 >
-                  {(analytics?.categorySales || []).map((_, index) => (
+                  {(analytics?.categorySales || []).map((_: any, index: number) => (
                     <Cell key={`cell-${index}`} fill={['#ea580c', '#3b82f6', '#10b981', '#f59e0b', '#8b5cf6'][index % 5]} />
                   ))}
                 </Pie>
