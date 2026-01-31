@@ -3,7 +3,7 @@ services:
     name: buildmart-app
     env: node
     plan: free
-    buildCommand: npm install --legacy-peer-deps && npm run cf-typegen && npm run build && cd backend && npm install && npm run build
+    buildCommand: npm install --legacy-peer-deps && npm run build && cd backend && npm install && npm run build
     startCommand: cd backend && npm start
     envVars:
       - key: NODE_VERSION
