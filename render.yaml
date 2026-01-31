@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: buildmart-app
+    env: node
+    plan: free
+    buildCommand: npm install && npm run build && cd backend && npm install && npm run build
+    startCommand: cd backend && npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 18.0.0
+      - key: JWT_SECRET
+        generateValue: true
+      - key: PORT
+        value: 10000
+      - key: RENDER
+        value: true
+      - key: ADMIN_WHATSAPP
+        value: "254768396296"
+    disk:
+      name: sqlite-db
+      mountPath: /opt/render/project/src/backend
+      sizeGB: 1

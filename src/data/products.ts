@@ -1,20 +1,10 @@
-export interface Product {
-  id: string;
-  name: string;
-  category: string;
-  price: number;
-  unit: string;
-  description: string;
-  image: string;
-  inStock: boolean;
-  featured: boolean;
-}
+import { Product } from "@/shared/types";
 
 export const products: Product[] = [
   {
     id: "1",
     name: "Portland Cement",
-    category: "Cement",
+    category_name: "Cement",
     price: 12.99,
     unit: "per bag (50kg)",
     description: "High-quality Portland cement ideal for all construction projects",
@@ -25,7 +15,7 @@ export const products: Product[] = [
   {
     id: "2",
     name: "River Sand",
-    category: "Sand",
+    category_name: "Sand",
     price: 45.00,
     unit: "per ton",
     description: "Premium washed river sand for concrete and masonry work",
@@ -36,7 +26,7 @@ export const products: Product[] = [
   {
     id: "3",
     name: "Red Clay Bricks",
-    category: "Bricks",
+    category_name: "Bricks",
     price: 0.65,
     unit: "per piece",
     description: "Durable red clay bricks for construction and landscaping",
@@ -47,7 +37,7 @@ export const products: Product[] = [
   {
     id: "4",
     name: "Ballast (20mm)",
-    category: "Aggregates",
+    category_name: "Aggregates",
     price: 38.00,
     unit: "per ton",
     description: "20mm ballast ideal for concrete mixing and foundation work",
@@ -58,7 +48,7 @@ export const products: Product[] = [
   {
     id: "5",
     name: "Concrete Blocks",
-    category: "Blocks",
+    category_name: "Blocks",
     price: 2.50,
     unit: "per piece",
     description: "Standard concrete blocks for walls and partitions",
@@ -69,7 +59,7 @@ export const products: Product[] = [
   {
     id: "6",
     name: "White Cement",
-    category: "Cement",
+    category_name: "Cement",
     price: 18.99,
     unit: "per bag (25kg)",
     description: "Premium white cement for finishing and decorative work",
@@ -80,7 +70,7 @@ export const products: Product[] = [
   {
     id: "7",
     name: "Plastering Sand",
-    category: "Sand",
+    category_name: "Sand",
     price: 42.00,
     unit: "per ton",
     description: "Fine sand perfect for plastering and rendering",
@@ -91,7 +81,7 @@ export const products: Product[] = [
   {
     id: "8",
     name: "Paving Bricks",
-    category: "Bricks",
+    category_name: "Bricks",
     price: 0.85,
     unit: "per piece",
     description: "Interlocking paving bricks for driveways and walkways",

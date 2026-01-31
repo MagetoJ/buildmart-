@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { X } from "lucide-react";
-import type { Product } from "@/data/products";
+import type { Product } from "@/shared/types";
 import { categories } from "@/data/products";
 
 interface ProductFormProps {
@@ -12,7 +12,7 @@ interface ProductFormProps {
 export default function ProductForm({ product, onSave, onCancel }: ProductFormProps) {
   const [formData, setFormData] = useState({
     name: product?.name || "",
-    category: product?.category || categories[0].name,
+    category_name: product?.category_name || categories[0].name,
     price: product?.price.toString() || "",
     unit: product?.unit || "",
     description: product?.description || "",
@@ -26,7 +26,7 @@ export default function ProductForm({ product, onSave, onCancel }: ProductFormPr
     onSave({
       ...(product?.id && { id: product.id }),
       name: formData.name,
-      category: formData.category,
+      category_name: formData.category_name,
       price: parseFloat(formData.price),
       unit: formData.unit,
       description: formData.description,
@@ -71,8 +71,8 @@ export default function ProductForm({ product, onSave, onCancel }: ProductFormPr
                 Category
               </label>
               <select
-                value={formData.category}
-                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                value={formData.category_name}
+                onChange={(e) => setFormData({ ...formData, category_name: e.target.value })}
                 className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-600 focus:outline-none transition-colors"
                 required
               >

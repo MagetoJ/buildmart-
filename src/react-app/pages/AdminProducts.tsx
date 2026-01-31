@@ -1,24 +1,50 @@
-import { useState } from "react";
-import { Plus, Edit2, Trash2, Package, Star } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Plus, Edit2, Trash2, Package, Star, Loader2 } from "lucide-react";
 import Header from "@/react-app/components/Header";
 import Footer from "@/react-app/components/Footer";
 import ProductForm from "@/react-app/components/ProductForm";
-import { products as initialProducts } from "@/data/products";
-import type { Product } from "@/data/products";
+import type { Product } from "@/shared/types";
+import { useAuth } from "@/react-app/contexts/AuthContext";
 
 export default function AdminProducts() {
-  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const { token } = useAuth();
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | undefined>();
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("All");
 
-  const categories = ["All", ...Array.from(new Set(products.map(p => p.category)))];
+  const fetchProducts = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch('/api/products');
+      if (response.ok) {
+        const data = await response.json();
+        const mappedProducts = data.map((p: any) => ({
+          ...p,
+          inStock: !!p.inStock,
+          featured: !!p.featured
+        }));
+        setProducts(mappedProducts);
+      }
+    } catch (error) {
+      console.error('Failed to fetch products:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const categories = ["All", ...Array.from(new Set(products.map(p => p.category_name)))];
 
   const filteredProducts = products.filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.description.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesCategory = categoryFilter === "All" || product.category === categoryFilter;
+    const matchesCategory = categoryFilter === "All" || product.category_name === categoryFilter;
     return matchesSearch && matchesCategory;
   });
 
@@ -32,41 +58,108 @@ export default function AdminProducts() {
     setShowForm(true);
   };
 
-  const handleDeleteProduct = (productId: string) => {
-    if (confirm("Are you sure you want to delete this product?")) {
-      setProducts(products.filter(p => p.id !== productId));
+  const handleDeleteProduct = async (productId: string) => {
+    if (confirm("Are you sure you want to delete this product?") && token) {
+      try {
+        const response = await fetch(`/api/admin/products/${productId}`, {
+          method: 'DELETE',
+          headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (response.ok) {
+          setProducts(products.filter(p => p.id !== productId));
+        }
+      } catch (error) {
+        console.error('Failed to delete product:', error);
+      }
     }
   };
 
-  const handleSaveProduct = (productData: Omit<Product, "id"> & { id?: string }) => {
-    if (productData.id) {
-      // Update existing product
-      setProducts(products.map(p => 
-        p.id === productData.id ? { ...productData, id: productData.id } as Product : p
-      ));
-    } else {
-      // Add new product
-      const newProduct: Product = {
-        ...productData,
-        id: (Math.max(...products.map(p => parseInt(p.id))) + 1).toString()
-      };
-      setProducts([...products, newProduct]);
+  const handleSaveProduct = async (productData: Omit<Product, "id"> & { id?: string }) => {
+    if (!token) return;
+    const method = productData.id ? 'PATCH' : 'POST';
+    const url = productData.id 
+      ? `/api/admin/products/${productData.id}`
+      : '/api/admin/products';
+
+    const body = {
+      ...productData,
+      inStock: productData.inStock ? 1 : 0,
+      featured: productData.featured ? 1 : 0
+    };
+
+    try {
+      const response = await fetch(url, {
+        method,
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        },
+        body: JSON.stringify(body)
+      });
+
+      if (response.ok) {
+        fetchProducts();
+        setShowForm(false);
+        setEditingProduct(undefined);
+      }
+    } catch (error) {
+      console.error('Failed to save product:', error);
     }
-    setShowForm(false);
-    setEditingProduct(undefined);
   };
 
-  const handleToggleStock = (productId: string) => {
-    setProducts(products.map(p => 
-      p.id === productId ? { ...p, inStock: !p.inStock } : p
-    ));
+  const handleToggleStock = async (product: Product) => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await fetch(`/api/admin/products/${product.id}`, {
+        method: 'PATCH',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        },
+        body: JSON.stringify({ inStock: !product.inStock })
+      });
+      if (response.ok) {
+        setProducts(products.map(p => 
+          p.id === product.id ? { ...p, inStock: !product.inStock } : p
+        ));
+      }
+    } catch (error) {
+      console.error('Failed to toggle stock:', error);
+    }
   };
 
-  const handleToggleFeatured = (productId: string) => {
-    setProducts(products.map(p => 
-      p.id === productId ? { ...p, featured: !p.featured } : p
-    ));
+  const handleToggleFeatured = async (product: Product) => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await fetch(`/api/admin/products/${product.id}`, {
+        method: 'PATCH',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        },
+        body: JSON.stringify({ featured: !product.featured })
+      });
+      if (response.ok) {
+        setProducts(products.map(p => 
+          p.id === product.id ? { ...p, featured: !product.featured } : p
+        ));
+      }
+    } catch (error) {
+      console.error('Failed to toggle featured:', error);
+    }
   };
+
+  if (loading && products.length === 0) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex flex-col">
+        <Header />
+        <div className="flex-1 flex items-center justify-center">
+          <Loader2 className="w-12 h-12 text-orange-600 animate-spin" />
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -155,7 +248,7 @@ export default function AdminProducts() {
                     </td>
                     <td className="px-6 py-4">
                       <span className="px-3 py-1 bg-orange-100 text-orange-800 text-sm font-semibold rounded-full">
-                        {product.category}
+                        {product.category_name}
                       </span>
                     </td>
                     <td className="px-6 py-4 font-bold text-gray-900">
@@ -164,7 +257,7 @@ export default function AdminProducts() {
                     <td className="px-6 py-4">
                       <div className="flex flex-col gap-2">
                         <button
-                          onClick={() => handleToggleStock(product.id)}
+                          onClick={() => handleToggleStock(product)}
                           className={`px-3 py-1 text-xs font-semibold rounded-full transition-colors ${
                             product.inStock
                               ? "bg-green-100 text-green-800 hover:bg-green-200"
@@ -174,7 +267,7 @@ export default function AdminProducts() {
                           {product.inStock ? "In Stock" : "Out of Stock"}
                         </button>
                         <button
-                          onClick={() => handleToggleFeatured(product.id)}
+                          onClick={() => handleToggleFeatured(product)}
                           className={`px-3 py-1 text-xs font-semibold rounded-full transition-colors ${
                             product.featured
                               ? "bg-orange-100 text-orange-800 hover:bg-orange-200"

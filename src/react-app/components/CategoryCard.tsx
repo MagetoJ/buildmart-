@@ -6,7 +6,7 @@ interface CategoryCardProps {
 }
 
 export default function CategoryCard({ name, icon }: CategoryCardProps) {
-  const Icon = (Icons as any)[icon] || Icons.Package;
+  const Icon = (Icons as unknown as Record<string, React.ElementType>)[icon] || Icons.Package;
 
   return (
     <button className="group p-6 bg-white rounded-2xl border-2 border-gray-200 hover:border-orange-400 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">

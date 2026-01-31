@@ -1,3 +1,9 @@
+-- Seed Users
+INSERT INTO users (id, username, email, password, role, full_name, address) VALUES 
+('admin-uuid', 'admin', 'admin@buildmart.com', '$2b$12$wx0QiPmNd1lyeMQs/w8wmOE.4ESuEM2n8madlSPmUkDKYaejuMyWq', 'admin', 'System Admin', '123 Admin Way'),
+('staff-uuid', 'staff', 'staff@buildmart.com', '$2b$12$wx0QiPmNd1lyeMQs/w8wmOE.4ESuEM2n8madlSPmUkDKYaejuMyWq', 'staff', 'Store Manager', '456 Staff Ave'),
+('user-uuid', 'user', 'user@buildmart.com', '$2b$12$wx0QiPmNd1lyeMQs/w8wmOE.4ESuEM2n8madlSPmUkDKYaejuMyWq', 'user', 'Regular Customer', '789 User Blvd');
+
 -- Seed Categories
 INSERT INTO categories (name, icon) VALUES ('Cement', 'Package');
 INSERT INTO categories (name, icon) VALUES ('Sand', 'Mountain');
@@ -17,13 +23,13 @@ INSERT INTO products (id, name, category_name, price, unit, description, image, 
 ('8', 'Paving Bricks', 'Bricks', 0.85, 'per piece', 'Interlocking paving bricks for driveways and walkways', 'https://images.unsplash.com/photo-1600011689032-8b628b8a8747?w=800&q=80', 0, 0);
 
 -- Seed Orders
-INSERT INTO orders (id, customerName, customerEmail, total, status, createdAt) VALUES 
-('ORD-001', 'John Kamau', 'john.kamau@email.com', 739.50, 'completed', '2024-01-15T10:30:00Z'),
-('ORD-002', 'Sarah Njeri', 'sarah.njeri@email.com', 650.00, 'processing', '2024-01-14T14:20:00Z'),
-('ORD-003', 'David Omondi', 'david.omondi@email.com', 449.80, 'completed', '2024-01-13T09:15:00Z'),
-('ORD-004', 'Grace Wanjiku', 'grace.wanjiku@email.com', 500.00, 'pending', '2024-01-12T16:45:00Z'),
-('ORD-005', 'Peter Mutua', 'peter.mutua@email.com', 315.90, 'completed', '2024-01-11T11:30:00Z'),
-('ORD-006', 'Mary Akinyi', 'mary.akinyi@email.com', 714.70, 'completed', '2024-01-10T13:00:00Z');
+INSERT INTO orders (id, userId, customerName, customerEmail, deliveryAddress, total, status, createdAt) VALUES 
+('ORD-001', 'user-uuid', 'Regular Customer', 'user@buildmart.com', '789 User Blvd', 739.50, 'delivered', '2024-01-15T10:30:00Z'),
+('ORD-002', NULL, 'Sarah Njeri', 'sarah.njeri@email.com', '456 Park Ave, Mombasa', 650.00, 'processing', '2024-01-14T14:20:00Z'),
+('ORD-003', 'user-uuid', 'Regular Customer', 'user@buildmart.com', '789 User Blvd', 449.80, 'delivered', '2024-01-13T09:15:00Z'),
+('ORD-004', NULL, 'Grace Wanjiku', 'grace.wanjiku@email.com', '321 Hill St, Nakuru', 500.00, 'pending', '2024-01-12T16:45:00Z'),
+('ORD-005', 'user-uuid', 'Regular Customer', 'user@buildmart.com', '789 User Blvd', 315.90, 'delivered', '2024-01-11T11:30:00Z'),
+('ORD-006', NULL, 'Mary Akinyi', 'mary.akinyi@email.com', '987 Beach Dr, Diani', 714.70, 'delivered', '2024-01-10T13:00:00Z');
 
 -- Seed Order Items
 INSERT INTO order_items (orderId, productId, productName, quantity, price) VALUES 

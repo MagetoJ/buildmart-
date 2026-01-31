@@ -67,7 +67,7 @@ export default function Cart() {
                     <div className="flex justify-between mb-2">
                       <div>
                         <h3 className="text-xl font-bold text-gray-900">{item.name}</h3>
-                        <p className="text-sm text-gray-500">{item.category}</p>
+                        <p className="text-sm text-gray-500">{item.category_name}</p>
                       </div>
                       <button
                         onClick={() => removeFromCart(item.id)}
@@ -138,7 +138,10 @@ export default function Cart() {
                 </div>
               </div>
 
-              <button className="w-full py-4 bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-xl font-semibold hover:shadow-xl transition-all mb-4">
+              <button
+                onClick={() => navigate("/checkout")}
+                className="w-full py-4 bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-xl font-semibold hover:shadow-xl transition-all mb-4"
+              >
                 Proceed to Checkout
               </button>
 

@@ -1,15 +1,32 @@
-import z from "zod";
+export interface Product {
+  id: string;
+  name: string;
+  category_name: string;
+  price: number;
+  unit: string;
+  description: string;
+  image: string;
+  inStock: boolean;
+  featured: boolean;
+}
 
-/**
- * Types shared between the client and server go here.
- *
- * For example, we can add zod schemas for API input validation, and derive types from them:
- *
- * export const TodoSchema = z.object({
- *   id: z.number(),
- *   name: z.string(),
- *   completed: z.number().int(), // 0 or 1
- * })
- *
- * export type TodoType = z.infer<typeof TodoSchema>;
- */
+export interface Review {
+  id: string;
+  productId: string;
+  userId: string;
+  userName: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+}
+
+export interface User {
+    id: string;
+    username?: string;
+    email: string;
+    role: 'admin' | 'staff' | 'user';
+    full_name?: string;
+    address?: string;
+    profile_image?: string;
+    created_at: string;
+}

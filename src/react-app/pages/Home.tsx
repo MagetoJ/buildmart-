@@ -3,9 +3,23 @@ import Hero from "@/react-app/components/Hero";
 import CategoryCard from "@/react-app/components/CategoryCard";
 import ProductCard from "@/react-app/components/ProductCard";
 import Footer from "@/react-app/components/Footer";
-import { products, categories } from "@/data/products";
+import { useEffect, useState } from "react";
+import { Product } from "@/shared/types";
 
 export default function HomePage() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<{name: string, icon: string}[]>([]);
+
+  useEffect(() => {
+    fetch('/api/products')
+      .then(res => res.json())
+      .then(data => setProducts(data));
+      
+    fetch('/api/categories')
+      .then(res => res.json())
+      .then(data => setCategories(data));
+  }, []);
+
   const featuredProducts = products.filter(p => p.featured);
 
   return (
