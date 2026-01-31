@@ -51,7 +51,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <div className="font-semibold text-gray-900">Email</div>
-                    <div className="text-gray-600">support@buildmart.com</div>
+                    <div className="text-gray-600">support@frahspaces.com</div>
                   </div>
                 </div>
 

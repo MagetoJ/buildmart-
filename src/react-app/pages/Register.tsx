@@ -53,7 +53,7 @@ export default function RegisterPage() {
       <main className="container mx-auto px-4 py-16 flex justify-center">
         <div className="w-full max-w-md">
           <div className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 text-center">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Join BuildMart</h1>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Join frah spaces</h1>
             <p className="text-gray-600 mb-8">Create an account to start building</p>
 
             {error && (

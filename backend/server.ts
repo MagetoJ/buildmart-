@@ -322,7 +322,7 @@ initDb().then((db) => {
 
             const orderId = `ORD-${Date.now()}`;
             const customerName = guestDetails?.full_name || req.body.customerName || 'Valued Customer';
-            const customerEmail = guestDetails?.email || req.body.customerEmail || 'no-email@buildmart.com';
+            const customerEmail = guestDetails?.email || req.body.customerEmail || 'no-email@frahspaces.com';
             const deliveryAddress = guestDetails?.address || req.body.deliveryAddress || 'Pick up at store';
 
             await db.run(
@@ -340,7 +340,7 @@ initDb().then((db) => {
             // Generate WhatsApp Message Link
             const adminWhatsApp = process.env.ADMIN_WHATSAPP || "254768396296"; 
             const message = encodeURIComponent(
-                `🚀 *New BuildMart Order!* \n\n` +
+                `🚀 *New frah spaces Order!* \n\n` +
                 `*Order ID:* ${orderId}\n` +
                 `*Customer:* ${customerName}\n` +
                 `*Total:* $${total}\n` +

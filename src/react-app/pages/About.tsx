@@ -19,7 +19,7 @@ export default function AboutPage() {
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl font-bold mb-6">Building the Future Together</h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-            BuildMart is East Africa's leading building materials marketplace, 
+            frah spaces is East Africa's leading building materials marketplace, 
             connecting contractors, homeowners, and developers with premium supplies since 2009.
           </p>
         </div>

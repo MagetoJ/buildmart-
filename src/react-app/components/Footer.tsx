@@ -8,9 +8,9 @@ export default function Footer() {
           <div>
             <div className="flex items-center gap-2 mb-4">
               <div className="w-10 h-10 bg-gradient-to-br from-orange-500 to-red-600 rounded-lg flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-xl">BM</span>
+                <span className="text-white font-bold text-xl">FS</span>
               </div>
-              <span className="text-xl font-bold text-white">BuildMart</span>
+              <span className="text-xl font-bold text-white">frah spaces</span>
             </div>
             <p className="text-gray-400 mb-4">
               Your trusted partner for quality building materials. Building strong foundations since 2013.
@@ -64,14 +64,14 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-orange-500 flex-shrink-0" />
-                <span>info@buildmart.com</span>
+                <span>info@frahspaces.com</span>
               </li>
             </ul>
           </div>
         </div>
 
         <div className="pt-8 border-t border-gray-800 text-center text-gray-400">
-          <p>&copy; 2024 BuildMart. All rights reserved.</p>
+          <p>&copy; 2024 frah spaces. All rights reserved.</p>
         </div>
       </div>
     </footer>

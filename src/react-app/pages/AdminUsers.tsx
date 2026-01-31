@@ -380,7 +380,7 @@ export default function AdminUsers() {
                   value={newUser.email}
                   onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
                   className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-orange-500"
-                  placeholder="john@buildmart.com"
+                  placeholder="john@frahspaces.com"
                 />
               </div>
               <div>

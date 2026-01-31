@@ -48,7 +48,7 @@ export default function LoginPage() {
         <div className="w-full max-w-md">
           <div className="bg-white p-8 rounded-3xl shadow-xl border border-gray-100 text-center">
             <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h1>
-            <p className="text-gray-600 mb-8">Sign in to your BuildMart account</p>
+            <p className="text-gray-600 mb-8">Sign in to your frah spaces account</p>
 
             {error && (
               <div className="mb-6 p-4 bg-red-50 text-red-600 rounded-xl text-sm font-medium">

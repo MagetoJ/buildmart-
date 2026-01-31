@@ -1,6 +1,6 @@
-import { useParams, useNavigate } from "react-router";
+import { useParams, useNavigate, Link } from "react-router";
 import { useState, useEffect } from "react";
-import { ShoppingCart, Heart, ArrowLeft, Minus, Plus, Package, Truck, Shield, Star, MessageSquare, Scale } from "lucide-react";
+import { ShoppingCart, Heart, ArrowLeft, Minus, Plus, Package, Truck, Shield, Star, MessageSquare, Scale, Calculator, ChevronRight, Info } from "lucide-react";
 import Header from "@/react-app/components/Header";
 import Footer from "@/react-app/components/Footer";
 import ProductCard from "@/react-app/components/ProductCard";
@@ -26,6 +26,11 @@ export default function ProductDetail() {
   const [reviewComment, setReviewComment] = useState("");
   const [submittingReview, setSubmittingReview] = useState(false);
 
+  // Calculator state
+  const [calcWidth, setCalcWidth] = useState("");
+  const [calcHeight, setCalcHeight] = useState("");
+  const [calcResult, setCalcResult] = useState<number | null>(null);
+
   useEffect(() => {
     Promise.all([
       fetch('/api/products').then(res => res.json()),
@@ -38,6 +43,54 @@ export default function ProductDetail() {
       setLoading(false);
     });
   }, [id]);
+
+  const calculateMaterials = () => {
+    const w = parseFloat(calcWidth);
+    const h = parseFloat(calcHeight);
+    if (isNaN(w) || isNaN(h)) return;
+
+    const area = w * h;
+    let needed = 0;
+
+    if (product?.name.toLowerCase().includes('brick')) {
+      // Standard brick coverage: ~60 per m2
+      needed = Math.ceil(area * 60);
+    } else if (product?.name.toLowerCase().includes('block')) {
+      // Standard block coverage: ~10 per m2
+      needed = Math.ceil(area * 10);
+    } else if (product?.category_name.toLowerCase().includes('tile')) {
+      // Example for tiles, assuming 30x30cm
+      needed = Math.ceil(area * 11.2); 
+    }
+
+    setCalcResult(needed);
+  };
+
+  const getSpecs = (product: Product) => {
+    const specs: Record<string, string> = {
+      "Category": product.category_name,
+      "Unit": product.unit || "Each",
+      "Stock Status": product.inStock ? "In Stock" : "Out of Stock",
+      "Product ID": product.id.split('-')[0].toUpperCase(),
+    };
+
+    if (product.name.toLowerCase().includes('brick')) {
+      specs["Material"] = "Clay / Concrete";
+      specs["Size"] = "215mm x 102.5mm x 65mm";
+      specs["Weight"] = "2.4kg";
+      specs["Compressive Strength"] = "20N/mm²";
+    } else if (product.name.toLowerCase().includes('cement')) {
+      specs["Weight"] = "25kg";
+      specs["Type"] = "Portland Composite";
+      specs["Setting Time"] = "2-4 Hours";
+    } else if (product.name.toLowerCase().includes('timber')) {
+      specs["Material"] = "Softwood";
+      specs["Treatment"] = "Pressure Treated";
+      specs["Grade"] = "C24";
+    }
+
+    return specs;
+  };
 
   const handleReviewSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -139,16 +192,24 @@ export default function ProductDetail() {
     <div className="min-h-screen bg-gray-50">
       <Header />
 
-      <div className="container mx-auto px-4 py-8">
-        <button
-          onClick={() => navigate("/")}
-          className="flex items-center gap-2 text-gray-600 hover:text-orange-600 mb-6 transition-colors"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          Back to Products
-        </button>
+      <div className="container mx-auto px-4 py-6">
+        {/* Breadcrumbs */}
+        <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6 overflow-x-auto whitespace-nowrap pb-2">
+          <Link to="/" className="hover:text-orange-600 transition-colors">Home</Link>
+          <ChevronRight className="w-4 h-4 flex-shrink-0" />
+          <Link to="/products" className="hover:text-orange-600 transition-colors">Products</Link>
+          <ChevronRight className="w-4 h-4 flex-shrink-0" />
+          <Link 
+            to={`/products?category=${encodeURIComponent(product.category_name)}`} 
+            className="hover:text-orange-600 transition-colors"
+          >
+            {product.category_name}
+          </Link>
+          <ChevronRight className="w-4 h-4 flex-shrink-0" />
+          <span className="text-gray-900 font-medium truncate">{product.name}</span>
+        </nav>
 
-        <div className="grid md:grid-cols-2 gap-12 bg-white rounded-3xl p-8 shadow-lg mb-12">
+        <div className="grid lg:grid-cols-2 gap-12 bg-white rounded-3xl p-6 lg:p-8 shadow-lg mb-12">
           <div className="relative">
             <img
               src={product.image}
@@ -195,12 +256,12 @@ export default function ProductDetail() {
             </div>
 
             <div className="mb-6">
-              <label className="block text-sm font-semibold text-gray-900 mb-3">Quantity</label>
+              <label className="block text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wider">Quantity</label>
               <div className="flex items-center gap-4">
-                <div className="flex items-center border-2 border-gray-300 rounded-xl overflow-hidden">
+                <div className="flex items-center border-2 border-gray-300 rounded-xl overflow-hidden shadow-sm">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="p-3 hover:bg-gray-100 transition-colors"
+                    className="p-4 hover:bg-gray-100 transition-colors active:bg-gray-200"
                     disabled={!product.inStock}
                   >
                     <Minus className="w-5 h-5" />
@@ -210,18 +271,18 @@ export default function ProductDetail() {
                     min="1"
                     value={quantity}
                     onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                    className="w-20 text-center text-lg font-semibold border-x-2 border-gray-300 py-3"
+                    className="w-24 text-center text-xl font-bold border-x-2 border-gray-300 py-4 bg-gray-50/50"
                     disabled={!product.inStock}
                   />
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    className="p-3 hover:bg-gray-100 transition-colors"
+                    className="p-4 hover:bg-gray-100 transition-colors active:bg-gray-200"
                     disabled={!product.inStock}
                   >
                     <Plus className="w-5 h-5" />
                   </button>
                 </div>
-                <div className="text-2xl font-bold text-gray-900">
+                <div className="text-3xl font-black text-gray-900">
                   ${(product.price * quantity).toFixed(2)}
                 </div>
               </div>
@@ -260,6 +321,86 @@ export default function ProductDetail() {
               </button>
             </div>
           </div>
+        </div>
+
+        <div className="grid lg:grid-cols-3 gap-8 mb-12">
+          {/* Technical Specifications */}
+          <div className="lg:col-span-2 bg-white rounded-3xl p-8 shadow-md">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-2 bg-gray-100 rounded-lg">
+                <Info className="w-6 h-6 text-gray-900" />
+              </div>
+              <h2 className="text-2xl font-bold text-gray-900">Technical Specifications</h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-4">
+              {Object.entries(getSpecs(product)).map(([key, value]) => (
+                <div key={key} className="flex justify-between py-3 border-b border-gray-100">
+                  <span className="text-gray-500 font-medium">{key}</span>
+                  <span className="text-gray-900 font-bold">{value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Material Calculator */}
+          {(product.name.toLowerCase().includes('brick') || 
+            product.name.toLowerCase().includes('block') || 
+            product.category_name.toLowerCase().includes('tile')) && (
+            <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-3xl p-8 shadow-xl text-white">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="p-2 bg-white/10 rounded-lg">
+                  <Calculator className="w-6 h-6 text-orange-500" />
+                </div>
+                <h2 className="text-2xl font-bold">Material Calculator</h2>
+              </div>
+              
+              <p className="text-gray-400 mb-6 text-sm">
+                Enter your wall/floor dimensions to estimate how many {product.unit.toLowerCase()}s you'll need.
+              </p>
+
+              <div className="space-y-4 mb-8">
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Width (m)</label>
+                  <input 
+                    type="number" 
+                    value={calcWidth}
+                    onChange={(e) => setCalcWidth(e.target.value)}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-500 transition-colors"
+                    placeholder="0.00"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold uppercase tracking-wider text-gray-500 mb-2">Height / Length (m)</label>
+                  <input 
+                    type="number" 
+                    value={calcHeight}
+                    onChange={(e) => setCalcHeight(e.target.value)}
+                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 focus:outline-none focus:border-orange-500 transition-colors"
+                    placeholder="0.00"
+                  />
+                </div>
+                <button 
+                  onClick={calculateMaterials}
+                  className="w-full py-4 bg-orange-600 hover:bg-orange-700 rounded-xl font-bold transition-colors"
+                >
+                  Calculate Now
+                </button>
+              </div>
+
+              {calcResult !== null && (
+                <div className="bg-white/10 rounded-2xl p-6 border border-white/10 animate-in zoom-in duration-300">
+                  <div className="text-gray-400 text-sm mb-1 uppercase tracking-widest font-bold">Estimated Needed</div>
+                  <div className="text-4xl font-black text-white flex items-baseline gap-2">
+                    {calcResult.toLocaleString()}
+                    <span className="text-lg font-bold text-orange-500">{product.unit.toLowerCase()}s</span>
+                  </div>
+                  <p className="text-xs text-gray-500 mt-3 italic">
+                    * Includes 10% waste allowance. Always confirm with your contractor.
+                  </p>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {relatedProducts.length > 0 && (

@@ -339,14 +339,16 @@ export default function ProfilePage() {
                               </td>
                               <td className="px-6 py-4 text-gray-900 font-semibold">${order.total.toFixed(2)}</td>
                               <td className="px-6 py-4">
-                                <span className={`px-3 py-1 rounded-full text-xs font-bold capitalize ${
+                                <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border-2 shadow-sm ${
                                   order.status === "delivered" 
-                                    ? "bg-green-100 text-green-700" 
+                                    ? "bg-green-600 border-green-700 text-white" 
                                     : order.status === "shipped"
-                                    ? "bg-blue-100 text-blue-700"
+                                    ? "bg-blue-600 border-blue-700 text-white"
                                     : order.status === "processing"
-                                    ? "bg-orange-100 text-orange-700"
-                                    : "bg-gray-100 text-gray-700"
+                                    ? "bg-orange-500 border-orange-600 text-white"
+                                    : order.status === "cancelled"
+                                    ? "bg-red-600 border-red-700 text-white"
+                                    : "bg-gray-600 border-gray-700 text-white"
                                 }`}>
                                   {order.status}
                                 </span>

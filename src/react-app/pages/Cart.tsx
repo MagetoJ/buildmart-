@@ -79,30 +79,30 @@ export default function Cart() {
 
                     <p className="text-gray-600 mb-4">{item.unit}</p>
 
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center border-2 border-gray-300 rounded-lg overflow-hidden">
+                    <div className="flex items-center justify-between mt-4">
+                      <div className="flex items-center border-2 border-gray-300 rounded-xl overflow-hidden shadow-sm">
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                          className="p-2 hover:bg-gray-100 transition-colors"
+                          className="p-4 hover:bg-gray-100 transition-colors active:bg-gray-200"
                         >
-                          <Minus className="w-4 h-4" />
+                          <Minus className="w-5 h-5" />
                         </button>
                         <input
                           type="number"
                           min="1"
                           value={item.quantity}
                           onChange={(e) => updateQuantity(item.id, parseInt(e.target.value) || 1)}
-                          className="w-16 text-center font-semibold border-x-2 border-gray-300 py-2"
+                          className="w-20 text-center text-lg font-bold border-x-2 border-gray-300 py-3 bg-gray-50/50"
                         />
                         <button
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                          className="p-2 hover:bg-gray-100 transition-colors"
+                          className="p-4 hover:bg-gray-100 transition-colors active:bg-gray-200"
                         >
-                          <Plus className="w-4 h-4" />
+                          <Plus className="w-5 h-5" />
                         </button>
                       </div>
 
-                      <div className="text-2xl font-bold text-gray-900">
+                      <div className="text-2xl font-black text-gray-900">
                         ${(item.price * item.quantity).toFixed(2)}
                       </div>
                     </div>
