@@ -9,6 +9,7 @@
     "lucide-react": "^0.510.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
+    "react-is": "^19.0.0",
     "react-router": "^7.5.3",
     "recharts": "^3.7.0",
     "zod": "^3.24.3"
@@ -34,7 +35,7 @@
     "vite": "^6.0.0"
   },
   "scripts": {
-    "build": "npm install --legacy-peer-deps && tsc -b && vite build",
+    "build": "tsc -b && vite build",
     "check": "tsc && vite build",
     "dev": "vite",
     "knip": "knip",
