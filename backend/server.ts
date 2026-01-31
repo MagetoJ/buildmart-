@@ -645,11 +645,11 @@ initDb().then((db) => {
     const frontendBuildPath = path.resolve(process.cwd(), '../dist');
     if (fs.existsSync(frontendBuildPath)) {
         app.use(express.static(frontendBuildPath));
-        app.get('*', (req, res) => {
-            if (!req.path.startsWith('/api')) {
-                res.sendFile(path.join(frontendBuildPath, 'index.html'));
-            }
-        });
+        app.get('/(.*)', (req, res) => { // Use /(.*) instead of /:any*
+    if (!req.path.startsWith('/api')) {
+        res.sendFile(path.join(frontendBuildPath, 'index.html'));
+    }
+});
     }
 
     app.listen(PORT, () => {
