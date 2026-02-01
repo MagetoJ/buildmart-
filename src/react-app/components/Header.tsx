@@ -79,7 +79,7 @@ export default function Header() {
             <Link to="/contact" className="text-gray-700 hover:text-orange-600 transition-colors font-medium">
               Contact
             </Link>
-            {(user?.role === 'admin' || user?.role === 'staff') && (
+            {user?.role === 'admin' && (
               <div className="flex items-center gap-6 border-l pl-6 border-gray-200 ml-2">
                 <Link to="/admin" className="text-orange-600 hover:text-orange-700 font-bold text-sm uppercase tracking-wider">
                   Dashboard
@@ -87,19 +87,25 @@ export default function Header() {
                 <Link to="/admin/orders" className="text-gray-700 hover:text-orange-600 font-bold text-sm uppercase tracking-wider">
                   Orders
                 </Link>
-                {user.role === 'admin' && (
-                  <>
-                    <Link to="/admin/products" className="text-gray-700 hover:text-orange-600 font-bold text-sm uppercase tracking-wider">
-                      Products
-                    </Link>
-                    <Link to="/admin/categories" className="text-gray-700 hover:text-orange-600 font-bold text-sm uppercase tracking-wider">
-                      Categories
-                    </Link>
-                    <Link to="/admin/users" className="text-gray-700 hover:text-orange-600 font-bold text-sm uppercase tracking-wider">
-                      Users
-                    </Link>
-                  </>
-                )}
+                <Link to="/admin/products" className="text-gray-700 hover:text-orange-600 font-bold text-sm uppercase tracking-wider">
+                  Products
+                </Link>
+                <Link to="/admin/categories" className="text-gray-700 hover:text-orange-600 font-bold text-sm uppercase tracking-wider">
+                  Categories
+                </Link>
+                <Link to="/admin/users" className="text-gray-700 hover:text-orange-600 font-bold text-sm uppercase tracking-wider">
+                  Users
+                </Link>
+              </div>
+            )}
+            {user?.role === 'staff' && (
+              <div className="flex items-center gap-6 border-l pl-6 border-gray-200 ml-2">
+                <Link to="/staff/dashboard" className="text-orange-600 hover:text-orange-700 font-bold text-sm uppercase tracking-wider">
+                  My Tasks
+                </Link>
+                <Link to="/admin/orders" className="text-gray-700 hover:text-orange-600 font-bold text-sm uppercase tracking-wider">
+                  Manage Orders
+                </Link>
               </div>
             )}
           </div>

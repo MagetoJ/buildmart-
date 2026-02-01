@@ -153,20 +153,21 @@ export default function ProductDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="flex flex-col min-h-screen bg-gray-50">
         <Header />
-        <div className="container mx-auto px-4 py-20 text-center">
+        <main className="flex-grow container mx-auto px-4 py-20 text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-600 mx-auto"></div>
-        </div>
+        </main>
+        <Footer />
       </div>
     );
   }
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="flex flex-col min-h-screen bg-gray-50">
         <Header />
-        <div className="container mx-auto px-4 py-20 text-center">
+        <main className="flex-grow container mx-auto px-4 py-20 text-center">
           <h1 className="text-3xl font-bold text-gray-900 mb-4">Product Not Found</h1>
           <button
             onClick={() => navigate("/")}
@@ -174,7 +175,8 @@ export default function ProductDetail() {
           >
             Back to Home
           </button>
-        </div>
+        </main>
+        <Footer />
       </div>
     );
   }
@@ -189,10 +191,10 @@ export default function ProductDetail() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="flex flex-col min-h-screen bg-gray-50">
       <Header />
 
-      <div className="container mx-auto px-4 py-6">
+      <main className="flex-grow container mx-auto px-4 py-6">
         {/* Breadcrumbs */}
         <nav className="flex items-center gap-2 text-sm text-gray-500 mb-6 overflow-x-auto whitespace-nowrap pb-2">
           <Link to="/" className="hover:text-orange-600 transition-colors">Home</Link>
@@ -509,7 +511,7 @@ export default function ProductDetail() {
             </div>
           </div>
         </section>
-      </div>
+      </main>
 
       <Footer />
     </div>

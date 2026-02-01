@@ -74,27 +74,30 @@ export default function AdminProducts() {
     }
   };
 
-  const handleSaveProduct = async (productData: Omit<Product, "id"> & { id?: string }) => {
+  const handleSaveProduct = async (productData: any) => {
     if (!token) return;
+
+    const formData = new FormData();
+    Object.keys(productData).forEach(key => {
+      if (key === 'imageFile' && productData[key]) {
+        formData.append('image', productData[key]);
+      } else if (productData[key] !== undefined) {
+        formData.append(key, productData[key]);
+      }
+    });
+
     const method = productData.id ? 'PATCH' : 'POST';
     const url = productData.id 
       ? `/api/admin/products/${productData.id}`
       : '/api/admin/products';
 
-    const body = {
-      ...productData,
-      inStock: productData.inStock ? 1 : 0,
-      featured: productData.featured ? 1 : 0
-    };
-
     try {
       const response = await fetch(url, {
         method,
         headers: { 
-          'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}` 
         },
-        body: JSON.stringify(body)
+        body: formData
       });
 
       if (response.ok) {

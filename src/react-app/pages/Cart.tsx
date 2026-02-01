@@ -10,9 +10,9 @@ export default function Cart() {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-gray-50">
+      <div className="flex flex-col min-h-screen bg-gray-50">
         <Header />
-        <div className="container mx-auto px-4 py-20">
+        <main className="flex-grow container mx-auto px-4 py-20">
           <div className="max-w-md mx-auto text-center">
             <div className="w-32 h-32 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <ShoppingBag className="w-16 h-16 text-gray-400" />
@@ -28,17 +28,17 @@ export default function Cart() {
               Continue Shopping
             </button>
           </div>
-        </div>
+        </main>
         <Footer />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="flex flex-col min-h-screen bg-gray-50">
       <Header />
 
-      <div className="container mx-auto px-4 py-8">
+      <main className="flex-grow container mx-auto px-4 py-8">
         <button
           onClick={() => navigate("/")}
           className="flex items-center gap-2 text-gray-600 hover:text-orange-600 mb-6 transition-colors"
@@ -154,7 +154,7 @@ export default function Cart() {
             </div>
           </div>
         </div>
-      </div>
+      </main>
 
       <Footer />
     </div>

@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { X } from "lucide-react";
+import { X, Upload, Image as ImageIcon } from "lucide-react";
 import type { Product } from "@/shared/types";
 import { categories } from "@/data/products";
 
 interface ProductFormProps {
   product?: Product;
-  onSave: (product: Omit<Product, "id"> & { id?: string }) => void;
+  onSave: (data: any) => void;
   onCancel: () => void;
 }
 
@@ -20,19 +20,16 @@ export default function ProductForm({ product, onSave, onCancel }: ProductFormPr
     inStock: product?.inStock ?? true,
     featured: product?.featured ?? false
   });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     onSave({
       ...(product?.id && { id: product.id }),
-      name: formData.name,
-      category_name: formData.category_name,
+      ...formData,
       price: parseFloat(formData.price),
-      unit: formData.unit,
-      description: formData.description,
-      image: formData.image,
-      inStock: formData.inStock,
-      featured: formData.featured
+      imageFile
     });
   };
 
@@ -52,49 +49,99 @@ export default function ProductForm({ product, onSave, onCancel }: ProductFormPr
         </div>
 
         <form onSubmit={handleSubmit} className="p-8 space-y-6">
-          <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
-              Product Name
-            </label>
-            <input
-              type="text"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-600 focus:outline-none transition-colors"
-              required
-            />
-          </div>
+          <div className="flex flex-col md:flex-row gap-8">
+            <div className="flex-1 space-y-6">
+              <div>
+                <label className="block text-sm font-semibold text-gray-900 mb-2">
+                  Product Name
+                </label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-600 focus:outline-none transition-colors"
+                  required
+                />
+              </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-sm font-semibold text-gray-900 mb-2">
-                Category
-              </label>
-              <select
-                value={formData.category_name}
-                onChange={(e) => setFormData({ ...formData, category_name: e.target.value })}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-600 focus:outline-none transition-colors"
-                required
-              >
-                {categories.map(cat => (
-                  <option key={cat.name} value={cat.name}>{cat.name}</option>
-                ))}
-              </select>
+              <div className="grid grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    Category
+                  </label>
+                  <select
+                    value={formData.category_name}
+                    onChange={(e) => setFormData({ ...formData, category_name: e.target.value })}
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-600 focus:outline-none transition-colors"
+                    required
+                  >
+                    {categories.map(cat => (
+                      <option key={cat.name} value={cat.name}>{cat.name}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-semibold text-gray-900 mb-2">
+                    Price (KES)
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    value={formData.price}
+                    onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                    className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-600 focus:outline-none transition-colors"
+                    required
+                  />
+                </div>
+              </div>
             </div>
 
-            <div>
+            <div className="w-full md:w-64">
               <label className="block text-sm font-semibold text-gray-900 mb-2">
-                Price (KES)
+                Product Image
               </label>
-              <input
-                type="number"
-                step="0.01"
-                min="0"
-                value={formData.price}
-                onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-600 focus:outline-none transition-colors"
-                required
-              />
+              <div className="relative aspect-square rounded-2xl border-2 border-dashed border-gray-300 overflow-hidden group hover:border-orange-600 transition-colors bg-gray-50 flex items-center justify-center">
+                {formData.image || previewUrl ? (
+                  <>
+                    <img src={previewUrl || formData.image} alt="Preview" className="w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <span className="text-white text-sm font-bold">Change Image</span>
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-center p-4">
+                    <span className="text-xs text-gray-500 font-medium italic">Click to upload image</span>
+                  </div>
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                      setImageFile(file);
+                      const reader = new FileReader();
+                      reader.onloadend = () => setPreviewUrl(reader.result as string);
+                      reader.readAsDataURL(file);
+                    }
+                  }}
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                />
+              </div>
+              <div className="mt-4">
+                <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-1 ml-1">
+                  Or use URL
+                </label>
+                <input
+                  type="url"
+                  value={formData.image}
+                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                  placeholder="https://example.com/image.jpg"
+                  className="w-full px-3 py-2 text-sm border-2 border-gray-300 rounded-lg focus:border-orange-600 focus:outline-none transition-colors"
+                />
+              </div>
             </div>
           </div>
 
@@ -121,20 +168,6 @@ export default function ProductForm({ product, onSave, onCancel }: ProductFormPr
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               rows={3}
               className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-600 focus:outline-none transition-colors resize-none"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-semibold text-gray-900 mb-2">
-              Image URL
-            </label>
-            <input
-              type="url"
-              value={formData.image}
-              onChange={(e) => setFormData({ ...formData, image: e.target.value })}
-              placeholder="https://example.com/image.jpg"
-              className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:border-orange-600 focus:outline-none transition-colors"
               required
             />
           </div>

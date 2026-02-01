@@ -34,20 +34,20 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-semibold text-lg mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="hover:text-orange-500 transition-colors">Home</a></li>
-              <li><a href="#" className="hover:text-orange-500 transition-colors">Products</a></li>
-              <li><a href="#" className="hover:text-orange-500 transition-colors">About Us</a></li>
-              <li><a href="#" className="hover:text-orange-500 transition-colors">Contact</a></li>
+              <li><a href="/" className="hover:text-orange-500 transition-colors">Home</a></li>
+              <li><a href="/products" className="hover:text-orange-500 transition-colors">Products</a></li>
+              <li><a href="/about" className="hover:text-orange-500 transition-colors">About Us</a></li>
+              <li><a href="/contact" className="hover:text-orange-500 transition-colors">Contact</a></li>
             </ul>
           </div>
 
           <div>
             <h3 className="text-white font-semibold text-lg mb-4">Categories</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="hover:text-orange-500 transition-colors">Cement</a></li>
-              <li><a href="#" className="hover:text-orange-500 transition-colors">Sand & Aggregates</a></li>
-              <li><a href="#" className="hover:text-orange-500 transition-colors">Bricks & Blocks</a></li>
-              <li><a href="#" className="hover:text-orange-500 transition-colors">Concrete</a></li>
+              <li><a href="/products?category=Cement" className="hover:text-orange-500 transition-colors">Cement</a></li>
+              <li><a href="/products?category=Sand" className="hover:text-orange-500 transition-colors">Sand & Aggregates</a></li>
+              <li><a href="/products?category=Bricks" className="hover:text-orange-500 transition-colors">Bricks & Blocks</a></li>
+              <li><a href="/products?category=Aggregates" className="hover:text-orange-500 transition-colors">Concrete</a></li>
             </ul>
           </div>
 
@@ -70,7 +70,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="pt-8 border-t border-gray-800 text-center text-gray-400">
+        <div className="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4 text-gray-400">
           <p>&copy; 2024 frah spaces. All rights reserved.</p>
         </div>
       </div>

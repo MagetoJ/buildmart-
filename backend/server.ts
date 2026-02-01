@@ -8,6 +8,7 @@ import { fileURLToPath } from 'url';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';
+import multer from 'multer';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,6 +19,26 @@ const JWT_SECRET = process.env.JWT_SECRET || 'your-fallback-secret';
 
 app.use(cors());
 app.use(express.json());
+
+// Setup Multer for image uploads
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadDir = path.join(__dirname, 'uploads');
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, uniqueSuffix + path.extname(file.originalname));
+  }
+});
+
+const upload = multer({ storage: storage });
+
+// Static files for uploads
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 interface AuthRequest extends Request {
     user?: { id: string, role: string };
@@ -553,13 +574,17 @@ initDb().then((db) => {
     });
 
     // Admin Route: Add new product
-    app.post('/api/admin/products', authenticateToken, isAdmin, async (req, res) => {
+    app.post('/api/admin/products', authenticateToken, isAdmin, upload.single('image'), async (req, res) => {
         const { name, category_name, price, unit, description, image, inStock, featured } = req.body;
         const id = uuidv4();
+        
+        // Use uploaded file path if available, otherwise use provided image URL
+        const finalImage = req.file ? `/uploads/${req.file.filename}` : image;
+
         try {
             await db.run(
                 'INSERT INTO products (id, name, category_name, price, unit, description, image, inStock, featured) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
-                [id, name, category_name, price, unit, description, image, inStock ? 1 : 0, featured ? 1 : 0]
+                [id, name, category_name, price, unit, description, finalImage, inStock ? 1 : 0, featured ? 1 : 0]
             );
             res.status(201).json({ success: true, id });
         } catch (error) {
@@ -569,9 +594,13 @@ initDb().then((db) => {
     });
 
     // Admin Route: Update product
-    app.patch('/api/admin/products/:id', authenticateToken, isAdmin, async (req, res) => {
+    app.patch('/api/admin/products/:id', authenticateToken, isAdmin, upload.single('image'), async (req, res) => {
         const { id } = req.params;
         const { name, category_name, price, unit, description, image, inStock, featured } = req.body;
+        
+        // Use uploaded file path if available, otherwise use provided image URL
+        const finalImage = req.file ? `/uploads/${req.file.filename}` : image;
+
         try {
             await db.run(
                 `UPDATE products SET 
@@ -584,7 +613,7 @@ initDb().then((db) => {
                     inStock = COALESCE(?, inStock),
                     featured = COALESCE(?, featured)
                 WHERE id = ?`,
-                [name, category_name, price, unit, description, image, inStock === undefined ? null : (inStock ? 1 : 0), featured === undefined ? null : (featured ? 1 : 0), id]
+                [name, category_name, price, unit, description, finalImage || image, inStock === undefined ? null : (inStock ? 1 : 0), featured === undefined ? null : (featured ? 1 : 0), id]
             );
             res.json({ success: true });
         } catch (error) {
