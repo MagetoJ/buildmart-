@@ -28,6 +28,13 @@ export default function CheckoutPage() {
       }));
     }
   }, [user]);
+
+  useEffect(() => {
+    if (items.length === 0) {
+      navigate("/cart");
+    }
+  }, [items.length, navigate]);
+
   const [createAccount, setCreateAccount] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -87,7 +94,6 @@ export default function CheckoutPage() {
   };
 
   if (items.length === 0) {
-    navigate("/cart");
     return null;
   }
 

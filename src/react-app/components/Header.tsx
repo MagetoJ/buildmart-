@@ -1,4 +1,4 @@
-import { ShoppingCart, Search, User, Menu, LogOut, X, Heart, Scale, Rocket, CheckCircle2, Database } from "lucide-react";
+import { ShoppingCart, Search, User, Menu, LogOut, X, Heart, Scale } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import { useCart } from "@/react-app/contexts/CartContext";
 import { useAuth } from "@/react-app/contexts/AuthContext";
@@ -15,24 +15,6 @@ export default function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<{ id: string, name: string, description: string, image: string, price: number }[]>([]);
-  const [backendStatus, setBackendStatus] = useState<{ status: string, db: string } | null>(null);
-
-  useEffect(() => {
-    const checkStatus = async () => {
-      try {
-        const res = await fetch('/api/health');
-        if (res.ok) {
-          const data = await res.json();
-          setBackendStatus(data);
-        }
-      } catch {
-        setBackendStatus(null);
-      }
-    };
-    checkStatus();
-    const interval = setInterval(checkStatus, 30000);
-    return () => clearInterval(interval);
-  }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -75,43 +57,6 @@ export default function Header() {
 
   return (
     <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
-      {/* Connection Status Bar */}
-      <div className="bg-gray-900 text-[10px] text-white py-1">
-        <div className="container mx-auto px-4 flex justify-between items-center">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1.5">
-              <span className="text-gray-400">Backend:</span>
-              {backendStatus?.status === 'ok' ? (
-                <span className="text-green-400 flex items-center gap-0.5 font-bold uppercase tracking-wider">
-                  <Rocket className="w-3 h-3 animate-pulse" />
-                  Connected
-                </span>
-              ) : (
-                <span className="text-red-400 flex items-center gap-0.5 font-bold uppercase tracking-wider">
-                  Offline
-                </span>
-              )}
-            </div>
-            <div className="flex items-center gap-1.5">
-              <span className="text-gray-400">Database:</span>
-              {backendStatus?.db === 'sqlite' ? (
-                <span className="text-green-400 flex items-center gap-0.5 font-bold uppercase tracking-wider">
-                  <Database className="w-3 h-3" />
-                  SQLite
-                  <CheckCircle2 className="w-3 h-3" />
-                </span>
-              ) : (
-                <span className="text-red-400 flex items-center gap-0.5 font-bold uppercase tracking-wider">
-                  Disconnected
-                </span>
-              )}
-            </div>
-          </div>
-          <div className="hidden sm:block text-gray-500 font-medium">
-            Authorized Personnel Only
-          </div>
-        </div>
-      </div>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-2">

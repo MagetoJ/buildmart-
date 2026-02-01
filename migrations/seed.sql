@@ -2,7 +2,8 @@
 INSERT INTO users (id, username, email, password, role, full_name, address) VALUES 
 ('admin-uuid', 'admin', 'admin@frahspaces.com', '$2b$12$wx0QiPmNd1lyeMQs/w8wmOE.4ESuEM2n8madlSPmUkDKYaejuMyWq', 'admin', 'System Admin', 'Nairobi, Kenya'),
 ('staff-uuid', 'staff', 'staff@frahspaces.com', '$2b$12$wx0QiPmNd1lyeMQs/w8wmOE.4ESuEM2n8madlSPmUkDKYaejuMyWq', 'staff', 'Store Manager', 'Mombasa Road, Nairobi'),
-('user-uuid', 'user', 'user@frahspaces.com', '$2b$12$wx0QiPmNd1lyeMQs/w8wmOE.4ESuEM2n8madlSPmUkDKYaejuMyWq', 'user', 'Regular Customer', 'Westlands, Nairobi');
+('user-uuid', 'user', 'user@frahspaces.com', '$2b$12$wx0QiPmNd1lyeMQs/w8wmOE.4ESuEM2n8madlSPmUkDKYaejuMyWq', 'user', 'Regular Customer', 'Westlands, Nairobi'),
+('admin2-uuid', 'admin2', 'admin2@frahspaces.com', '$2b$12$wx0QiPmNd1lyeMQs/w8wmOE.4ESuEM2n8madlSPmUkDKYaejuMyWq', 'admin', 'Super Admin', 'Nairobi, Kenya');
 
 -- Seed Categories
 INSERT INTO categories (name, icon) VALUES ('Cement', 'Package');

@@ -1,25 +1,6 @@
-import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin, Database, Rocket } from "lucide-react";
-import { useEffect, useState } from "react";
+import { Facebook, Twitter, Instagram, Linkedin, Mail, Phone, MapPin } from "lucide-react";
 
 export default function Footer() {
-  const [dbStatus, setDbStatus] = useState<string>("connecting...");
-  const [isBackendUp, setIsBackendUp] = useState<boolean>(false);
-
-  useEffect(() => {
-    fetch('/api/health')
-      .then(res => res.json())
-      .then(data => {
-        if (data.status === 'ok') {
-          setDbStatus(data.db);
-          setIsBackendUp(true);
-        }
-      })
-      .catch(() => {
-        setDbStatus("disconnected");
-        setIsBackendUp(false);
-      });
-  }, []);
-
   return (
     <footer className="bg-gray-900 text-gray-300">
       <div className="container mx-auto px-4 py-12">
@@ -34,16 +15,6 @@ export default function Footer() {
             <p className="text-gray-400 mb-4">
               Your trusted partner for quality building materials. Building strong foundations since 2013.
             </p>
-            <div className="flex gap-4 items-center mb-6">
-              <div className="flex items-center gap-2 text-xs bg-gray-800 px-2 py-1 rounded border border-gray-700">
-                <Database className={`w-3 h-3 ${dbStatus.includes('✅') ? 'text-green-500' : 'text-yellow-500'}`} />
-                <span>{dbStatus}</span>
-              </div>
-              <div className="flex items-center gap-2 text-xs bg-gray-800 px-2 py-1 rounded border border-gray-700">
-                <Rocket className={`w-3 h-3 ${isBackendUp ? 'text-orange-500' : 'text-gray-500'}`} />
-                <span>Backend {isBackendUp ? '🚀' : 'down'}</span>
-              </div>
-            </div>
             <div className="flex gap-3">
               <button className="w-10 h-10 bg-gray-800 hover:bg-orange-600 rounded-lg flex items-center justify-center transition-colors">
                 <Facebook className="w-5 h-5" />
