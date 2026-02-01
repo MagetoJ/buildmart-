@@ -11,6 +11,8 @@ INSERT INTO categories (name, icon) VALUES ('Bricks', 'Grid3x3');
 INSERT INTO categories (name, icon) VALUES ('Aggregates', 'Circle');
 INSERT INTO categories (name, icon) VALUES ('Blocks', 'Box');
 INSERT INTO categories (name, icon) VALUES ('Timber', 'Trees');
+INSERT INTO categories (name, icon) VALUES ('Steel', 'Activity');
+INSERT INTO categories (name, icon) VALUES ('Roofing', 'Home');
 
 -- Seed Products (Prices in KES)
 INSERT INTO products (id, name, category_name, price, unit, description, image, inStock, featured) VALUES 
@@ -21,7 +23,9 @@ INSERT INTO products (id, name, category_name, price, unit, description, image, 
 ('5', 'Hollow Concrete Blocks (9x9x18)', 'Blocks', 85.00, 'per piece', 'Large hollow concrete blocks for perimeter walls and heavy masonry.', 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?w=800&q=80', 1, 0),
 ('6', 'Blue Triangle White Cement', 'Cement', 1250.00, 'per bag (25kg)', 'Specialty white cement for decorative finishing and tile grouting.', 'https://images.unsplash.com/photo-1572981779307-38b8cabb2407?w=800&q=80', 1, 0),
 ('7', 'Building Timber (2x2 Treated)', 'Timber', 65.00, 'per foot', 'Pressure-treated softwood timber for roofing and structural framing.', 'https://images.unsplash.com/photo-1520156154266-2c699564619d?w=800&q=80', 1, 1),
-('8', 'Paving Cabro (Heavy Duty)', 'Bricks', 45.00, 'per piece', 'Heavy-duty interlocking cabro blocks for driveways and industrial yards.', 'https://images.unsplash.com/photo-1600011689032-8b628b8a8747?w=800&q=80', 1, 0);
+('8', 'Paving Cabro (Heavy Duty)', 'Bricks', 45.00, 'per piece', 'Heavy-duty interlocking cabro blocks for driveways and industrial yards.', 'https://images.unsplash.com/photo-1600011689032-8b628b8a8747?w=800&q=80', 1, 0),
+('9', 'TMT Deformed Steel Bars (12mm)', 'Steel', 1450.00, 'per bar (12m)', 'High-tensile TMT steel bars for structural reinforcement in concrete.', 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&q=80', 1, 1),
+('10', 'Rhino Iron Sheets (G30)', 'Roofing', 1150.00, 'per sheet (3m)', 'Durable prepainted G30 iron sheets for roofing and wall cladding.', 'https://images.unsplash.com/photo-1635424710928-0544e8512eae?w=800&q=80', 1, 1);
 
 -- Seed Orders
 INSERT INTO orders (id, userId, customerName, customerEmail, deliveryAddress, total, status, createdAt) VALUES 

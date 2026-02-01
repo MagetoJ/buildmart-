@@ -71,6 +71,7 @@ async function initDb() {
         await db.exec(seed);
     }
 
+    console.log('Database connected: sqlite ✅');
     return db;
 }
 
@@ -80,7 +81,7 @@ initDb().then((db) => {
     app.get('/api/health', async (req, res) => {
         try {
             await db.get('SELECT 1');
-            res.json({ status: 'ok', db: 'sqlite' });
+            res.json({ status: 'ok', db: 'sqlite ✅' });
         } catch (error) {
             res.status(500).json({ status: 'error', db: 'disconnected' });
         }
@@ -645,15 +646,15 @@ initDb().then((db) => {
     const frontendBuildPath = path.resolve(process.cwd(), '../dist');
     if (fs.existsSync(frontendBuildPath)) {
         app.use(express.static(frontendBuildPath));
-        app.get('/(.*)', (req, res) => { // Use /(.*) instead of /:any*
-    if (!req.path.startsWith('/api')) {
-        res.sendFile(path.join(frontendBuildPath, 'index.html'));
-    }
-});
+        app.get('*', (req, res) => { 
+            if (!req.path.startsWith('/api')) {
+                res.sendFile(path.join(frontendBuildPath, 'index.html'));
+            }
+        });
     }
 
     app.listen(PORT, () => {
-        console.log(`Backend running at http://localhost:${PORT}`);
+        console.log(`Backend 🚀 running at http://localhost:${PORT}`);
     });
 }).catch(err => {
     console.error('Failed to initialize database:', err);
