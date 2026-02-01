@@ -646,7 +646,7 @@ initDb().then((db) => {
     const frontendBuildPath = path.resolve(process.cwd(), '../dist');
     if (fs.existsSync(frontendBuildPath)) {
         app.use(express.static(frontendBuildPath));
-        app.get('*', (req, res) => { 
+        app.get('/:splat*', (req, res) => { 
             if (!req.path.startsWith('/api')) {
                 res.sendFile(path.join(frontendBuildPath, 'index.html'));
             }
